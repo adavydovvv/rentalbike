@@ -50,7 +50,7 @@ public class DataBaseHandler extends Configs{
             PreparedStatement ps_auth = getInstanceConnection().prepareStatement(insert_authorization);
             ps_auth.setString(1, login);
             ps_auth.setString(2, email);
-            ps_auth.setString(3, password);
+            ps_auth.setString(3, Integer.toString(password.hashCode()));
             ps_auth.executeUpdate();
 
 
@@ -69,7 +69,7 @@ public class DataBaseHandler extends Configs{
             throw new RuntimeException(e);
         }
     }
-    public int getidnum(String query) throws SQLException {
+    private int getidnum(String query) throws SQLException {
         Statement statement = getInstanceConnection().createStatement();
             int value = 0;
             ResultSet result = statement.executeQuery(query);
@@ -77,6 +77,17 @@ public class DataBaseHandler extends Configs{
                 value = result.getInt(1);
             }
         return value;
+    }
+    public ResultSet getUser(String login, String password) throws SQLException {
+        ResultSet result = null;
+        String query = "SELECT * FROM " + Const.AUTHORIZATION_TABLE + " WHERE " + Const.AUTHORIZATION_LOGIN +
+                "=? AND " + Const.AUTHORIZATION_PASSWORD + "=?";
+        PreparedStatement pr = getInstanceConnection().prepareStatement(query);
+        pr.setString(1, login);
+        pr.setString(2, Integer.toString(password.hashCode()));
+
+        result = pr.executeQuery();
+        return result;
     }
     public static DataBaseHandler getInstance() {
         return DataBaseHandlerHolder.HOLDER_INSTANCE;

@@ -1,10 +1,15 @@
 package com.example.bike_rent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class RegController {
 
@@ -40,12 +45,28 @@ public class RegController {
 
     @FXML
     void initialize() {
-        DataBaseHandler dbhandler = DataBaseHandler.getInstance();
         acceptbutton.setOnAction(actionEvent -> {
-            dbhandler.signUpUser(clientname.getText(), clientaddress.getText(), passpser.getText(),
-                    passpnum.getText(), reglogin.getText(), regpassword.getText(), regemail.getText());
-            System.out.println("кнопка нажалась");
+            signUpUser();
+            acceptbutton.getScene().getWindow().hide();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(HelloApplication.class.getResource("hello-view.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
         });
+    }
+    public void signUpUser(){
+        DataBaseHandler dbhandler = DataBaseHandler.getInstance();
+        dbhandler.signUpUser(clientname.getText(), clientaddress.getText(), passpser.getText(),
+                passpnum.getText(), reglogin.getText(), regpassword.getText(), regemail.getText());
+        System.out.println("!Пользователь успешно добавлен в базу данных!");
     }
 
 }
