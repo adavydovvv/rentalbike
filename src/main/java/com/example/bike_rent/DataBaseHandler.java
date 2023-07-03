@@ -1,5 +1,11 @@
 package com.example.bike_rent;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.*;
+import java.time.LocalDate;
+
 public class DataBaseHandler extends Configs{
     Connection dbconnection;
     private static class DataBaseHandlerHolder {
@@ -88,6 +94,71 @@ public class DataBaseHandler extends Configs{
 
         result = pr.executeQuery();
         return result;
+    }
+    public ObservableList<String> getColumnBoxData(String table_name, String column_name) throws SQLException {
+        ObservableList<String> data = FXCollections.observableArrayList();
+        String query = "SELECT " + column_name + " FROM " + table_name;
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            String value = result.getString(column_name);
+            data.add(value);
+        }
+        return data;
+    }
+    public int getMinBikeId(String model) throws SQLException {
+        int value = 0;
+        String query = "SELECT MIN(id) as min_id FROM " + Const.BIKE_TABLE + " WHERE " + Const.BIKE_MODEL +
+                " = '" + model + "' AND " + Const.BIKE_STATUS + " != 'Занят'" ;
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            value = result.getInt(1);
+        }
+        return value;
+    }
+    public int getClientID(String login) throws SQLException {
+        int value = 0;
+        int res = 0;
+        String query = "SELECT auth_id FROM " + Const.AUTHORIZATION_TABLE + " WHERE " + Const.AUTHORIZATION_LOGIN +
+                " = '" + login + "'";
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            value = result.getInt(1);
+        }
+        String query2 = "SELECT client_id FROM " + Const.CLIENT_TABLE + " WHERE " + Const.CLIENT_AUTHORIZATION +
+                " = " + value;
+        Statement statement2 = getInstanceConnection().createStatement();
+        ResultSet result2 = statement2.executeQuery(query2);
+        while (result2.next()){
+            res = result2.getInt(1);
+        }
+        return res;
+    }
+    public void reserve_bike(String model, String shop, LocalDate date) throws SQLException {
+        String minbikeid = Integer.toString(getMinBikeId(model));
+        String insert_reserve = "INSERT INTO " + Const.RESERVATION_TABLE + "(" +
+                Const.RESERVATION_CLIENTID + ","  + Const.RESERVATION_BIKEID + "," + Const.RESERVATION_ISDATE
+                + "," + Const.RESERVATION_ISSHOP + ")" + "VALUES(?,?,?,?)";
+        String update_biketable = "UPDATE " + Const.BIKE_TABLE + " SET " + Const.BIKE_STATUS + " = 'Занят' WHERE id = " +
+                minbikeid;
+
+        try{
+            PreparedStatement ps = getInstanceConnection().prepareStatement(insert_reserve);
+            ps.setInt(1, getClientID(Authorization.getLogin()));
+            ps.setInt(2, getMinBikeId(model));
+            ps.setDate(3, Date.valueOf(date));
+            ps.setString(4, shop);
+
+            ps.executeUpdate();
+
+            PreparedStatement ps_b = getInstanceConnection().prepareStatement(update_biketable);
+            ps_b.executeUpdate();
+        } catch (SQLException e){
+            System.out.println("Ошибка молодости.....ошибка молодости");
+            throw new RuntimeException(e);
+        }
     }
     public static DataBaseHandler getInstance() {
         return DataBaseHandlerHolder.HOLDER_INSTANCE;

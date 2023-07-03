@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="793.0" style="-fx-background-color: #2E3360;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bike_rent.ReservWinController">
+    <children>
+        <AnchorPane layoutX="-4.0" layoutY="92.0" prefHeight="373.0" prefWidth="796.0" style="-fx-background-color: #fafafa;">
+            <children>
+                <Label fx:id="helloLabel" layoutX="14.0" layoutY="22.0" prefHeight="35.0" prefWidth="763.0" style="-fx-background-color: #fafafa;">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+            <ComboBox fx:id="shoplist" layoutX="70.0" layoutY="115.0" prefHeight="25.0" prefWidth="384.0" promptText="Магазин" />
+            <ComboBox fx:id="modellist" layoutX="70.0" layoutY="162.0" prefHeight="25.0" prefWidth="384.0" promptText="Модель" />
+            <DatePicker fx:id="issue_date" layoutX="70.0" layoutY="209.0" prefHeight="25.0" prefWidth="384.0" promptText="День выдачи" />
+            <Label layoutX="70.0" layoutY="49.0" prefHeight="17.0" prefWidth="384.0" text="Бронирование велосипеда">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="agree" layoutX="70.0" layoutY="297.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="228.0" text="Подтвердить бронирование" />
+            </children>
+        </AnchorPane>
+        <Label layoutX="301.0" layoutY="26.0" text="Велопрокат" textFill="WHITE">
+            <font>
+                <Font name="Arial" size="35.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

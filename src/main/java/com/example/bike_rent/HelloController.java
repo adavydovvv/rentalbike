@@ -83,7 +83,7 @@ public class HelloController {
         if (count >= 1){
             System.out.println("Авторизация выполнена успешно! (f-true)");
             authorizebutton.getScene().getWindow().hide();
-
+            Authorization.setLogin(login);
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("main-win.fxml"));
             try {
@@ -101,7 +101,7 @@ public class HelloController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Ошибка");
             alert.setHeaderText("Ошибка авторизации:");
-            alert.setContentText("Ошибка в логине или пароле. Проверьте корректность введённых данных!!");
+            alert.setContentText("Ошибка в логине или пароле. Проверьте корректность введённых данных!");
             alert.showAndWait();
         }
     }

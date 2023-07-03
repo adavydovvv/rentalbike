@@ -27,4 +27,41 @@ public class Const {
     public static final String AUTHORIZATION_LOGIN = "login";
     public static final String AUTHORIZATION_EMAIL = "email";
     public static final String AUTHORIZATION_PASSWORD = "pass_word";
+    //-------------------------------------------------
+    // Таблица Reservation
+    public static final String RESERVATION_TABLE = "Reservation";
+
+    public static final String RESERVATION_ID = "id";
+    public static final String RESERVATION_CLIENTID = "client_id";
+    public static final String RESERVATION_BIKEID = "bike_id";
+    public static final String RESERVATION_RETURNID = "return_id";
+    public static final String RESERVATION_ISDATE = "issue_date";
+    public static final String RESERVATION_ISSHOP = "issue_shop";
+
+    //-------------------------------------------------
+    // Таблица Model
+
+    public static final String MODEL_TABLE = "Model";
+
+    public static final String MODEL_NAME = "name";
+    public static final String MODEL_TYPEID = "typeid";
+    public static final String MODEL_GCOUNT = "gear_count";
+
+    //-------------------------------------------------
+    // Таблица Bike
+
+    public static final String BIKE_TABLE = "Bike";
+
+    public static final String BIKE_ID = "id";
+    public static final String BIKE_MODEL = "model";
+    public static final String BIKE_SHOP = "shop";
+    public static final String BIKE_STATUS = "status";
+
+    //-------------------------------------------------
+    // Таблица Shop
+    public static final String SHOP_TABLE = "Shop";
+
+    public static final String SHOP_NAME = "name";
+    public static final String SHOP_ADDRESS = "address";
+
 }

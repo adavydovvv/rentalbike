@@ -2,40 +2,40 @@ package com.example.bike_rent;
 
 public class Authorization {
 
-    private String login;
-    private int auth_id;
-    private String email;
-    private String password;
+    public static String login;
+    public static int auth_id;
+    public static String email;
+    public static String password;
 
-    public Authorization(String login, String email, String password) {
-        this.login = login;
-        this.email = email;
-        this.password = password;
+    public Authorization() {
+//        this.login = login;
+//        this.email = email;
+//        this.password = password;
     }
 
-    public String getLogin() {
+    public static String getLogin() {
         return login;
     }
 
-    public String getEmail() {
+    public static String getEmail() {
         return email;
     }
 
-    public String getPassword() {
+    public static String getPassword() {
         return password;
     }
-    public int getAuthid() {
+    public static int getAuthid() {
         return auth_id;
     }
-    public void setLogin(String login) {
-        this.login = login;
+    public static void setLogin(String login) {
+        Authorization.login = login;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public static void setEmail(String email) {
+        Authorization.email = email;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        Authorization.password = password;
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="793.0" style="-fx-background-color: #2E3360;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bike_rent.RefundController">
+    <children>
+        <AnchorPane layoutX="-4.0" layoutY="92.0" prefHeight="373.0" prefWidth="796.0" style="-fx-background-color: #fafafa;">
+            <children>
+                <Label fx:id="helloLabel" layoutX="14.0" layoutY="22.0" prefHeight="35.0" prefWidth="763.0" style="-fx-background-color: #fafafa;">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label layoutX="70.0" layoutY="49.0" prefHeight="17.0" prefWidth="384.0" text="Возврат велосипеда">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+            <ComboBox fx:id="reserv_no" layoutX="70.0" layoutY="125.0" prefHeight="25.0" prefWidth="384.0" promptText="Номер бронирования" />
+            <DatePicker fx:id="return_date" layoutX="70.0" layoutY="187.0" prefHeight="25.0" prefWidth="384.0" promptText="Дата" />
+            </children>
+        </AnchorPane>
+        <Label layoutX="301.0" layoutY="26.0" text="Велопрокат" textFill="WHITE">
+            <font>
+                <Font name="Arial" size="35.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
