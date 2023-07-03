@@ -37,8 +37,9 @@ public class MainWinController {
     private Button zap_button;
 
     @FXML
-    void initialize() {
+    void initialize() throws SQLException {
         DataBaseHandler dbhandler = DataBaseHandler.getInstance();
+        helloLabel.setText("Добро пожаловать, " + dbhandler.getClientName());
         zap_button.setOnAction(actionEvent -> {
             zap_button.getScene().getWindow().hide();
 

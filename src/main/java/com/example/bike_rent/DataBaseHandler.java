@@ -50,15 +50,17 @@ public class DataBaseHandler extends Configs{
                 + ")" + "VALUES(?,?,?)";
 
         try{
-            PreparedStatement ps_pas = getInstanceConnection().prepareStatement(insert_passport);
-            ps_pas.setString(1, series);
-            ps_pas.setString(2, number);
-            ps_pas.executeUpdate();
             PreparedStatement ps_auth = getInstanceConnection().prepareStatement(insert_authorization);
             ps_auth.setString(1, login);
             ps_auth.setString(2, email);
             ps_auth.setString(3, Integer.toString(password.hashCode()));
             ps_auth.executeUpdate();
+
+            PreparedStatement ps_pas = getInstanceConnection().prepareStatement(insert_passport);
+            ps_pas.setString(1, series);
+            ps_pas.setString(2, number);
+            ps_pas.executeUpdate();
+
 
 
             String query_pas = "SELECT * FROM Passport ORDER BY id DESC LIMIT 0, 1";
@@ -72,7 +74,12 @@ public class DataBaseHandler extends Configs{
             ps_client.setInt(4, getidnum(query_pas));
             ps_client.executeUpdate();
         } catch (SQLException e){
-            System.out.println("АПШИВКА");
+            //System.out.println("АПШИВКА");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Ошибка");
+            alert.setHeaderText("Ошибка регистрации:");
+            alert.setContentText("Пользователь с таким логином уже существует!");
+            alert.showAndWait();
             throw new RuntimeException(e);
         }
     }
@@ -136,6 +143,17 @@ public class DataBaseHandler extends Configs{
             res = result2.getInt(1);
         }
         return res;
+    }
+    public String getClientName() throws SQLException {
+        String value = null;
+        String query = "SELECT name FROM " + Const.CLIENT_TABLE + " WHERE " + Const.CLIENT_ID +
+                " = " +  getClientID(Authorization.getLogin());
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            value = result.getString(1);
+        }
+        return value;
     }
     public void reserve_bike(String model, String shop, LocalDate date) throws SQLException {
         String minbikeid = Integer.toString(getMinBikeId(model));

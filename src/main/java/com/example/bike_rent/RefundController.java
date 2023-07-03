@@ -28,6 +28,8 @@ public class RefundController {
     @FXML
     private DatePicker return_date;
     @FXML
+    private Button ret_but;
+    @FXML
     void initialize() throws SQLException {
         DataBaseHandler dbhandler = DataBaseHandler.getInstance();
         reserv_no.setItems(dbhandler.getClientResBikeId());
@@ -50,6 +52,20 @@ public class RefundController {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+        });
+        ret_but.setOnAction(actionEvent -> {
+            ret_but.getScene().getWindow().hide();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("main-win.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
         });
 
     }

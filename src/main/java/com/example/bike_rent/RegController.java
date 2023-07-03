@@ -33,6 +33,8 @@ public class RegController {
 
     @FXML
     private TextField passpser;
+    @FXML
+    private Button ret_but;
 
     @FXML
     private TextField regemail;
@@ -51,6 +53,20 @@ public class RegController {
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(HelloApplication.class.getResource("hello-view.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        });
+        ret_but.setOnAction(actionEvent -> {
+            ret_but.getScene().getWindow().hide();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("hello-view.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {

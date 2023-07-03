@@ -25,6 +25,8 @@ public class ReservWinController {
     private Label helloLabel;
     @FXML
     private Button agree;
+    @FXML
+    private Button ret_but;
 
     @FXML
     private ComboBox<String> modellist;
@@ -64,6 +66,20 @@ public class ReservWinController {
                 throw new RuntimeException(e);
             }
             System.out.println("FLAG");
+        });
+        ret_but.setOnAction(actionEvent -> {
+            ret_but.getScene().getWindow().hide();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("main-win.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
         });
     }
 
