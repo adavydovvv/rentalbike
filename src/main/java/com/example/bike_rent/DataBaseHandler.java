@@ -2,6 +2,7 @@ package com.example.bike_rent;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -155,6 +156,49 @@ public class DataBaseHandler extends Configs{
 
             PreparedStatement ps_b = getInstanceConnection().prepareStatement(update_biketable);
             ps_b.executeUpdate();
+        } catch (SQLException e){
+            //System.out.println("Ошибка молодости.....ошибка молодости");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Ошибка");
+            alert.setHeaderText("Ошибка бронирования:");
+            alert.setContentText("К сожалению, на данный момент выбранная модель велосипеда в данном магазине недоступна");
+            alert.showAndWait();
+            throw new RuntimeException(e);
+        }
+    }
+    public ObservableList<String> getColumnBoxShops(String bike_model) throws SQLException {
+        ObservableList<String> data = FXCollections.observableArrayList();
+        String query = "SELECT DISTINCT " + Const.BIKE_SHOP + " FROM " + Const.BIKE_TABLE + " WHERE " + Const.BIKE_MODEL + " = '" + bike_model + "'";
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            String value = result.getString(Const.BIKE_SHOP);
+            data.add(value);
+        }
+        return data;
+    }
+    public ObservableList<Integer> getClientResBikeId() throws SQLException {
+        ObservableList<Integer> data = FXCollections.observableArrayList();
+        int client_id = getClientID(Authorization.getLogin());
+        String query = "SELECT " + Const.RESERVATION_BIKEID + " FROM " + Const.RESERVATION_TABLE + " WHERE client_id = " + client_id + " AND return_date is NULL";
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            int value = result.getInt(Const.RESERVATION_BIKEID);
+            data.add(value);
+        }
+        return data;
+    }
+    public void return_bike(int bikeid, LocalDate date) throws SQLException {
+        String update_biketable = "UPDATE " + Const.BIKE_TABLE + " SET " + Const.BIKE_STATUS + " = 'Свободен' WHERE id = " +
+                bikeid;
+        String update_reserve = "UPDATE " + Const.RESERVATION_TABLE + " SET " + Const.RESERVATION_RETURNDATE + " = '" + date + "' WHERE bike_id = " +
+                bikeid + " AND return_date is NULL";
+        try{
+            PreparedStatement ps_b = getInstanceConnection().prepareStatement(update_biketable);
+            ps_b.executeUpdate();
+            PreparedStatement ps_res = getInstanceConnection().prepareStatement(update_reserve);
+            ps_res.executeUpdate();
         } catch (SQLException e){
             System.out.println("Ошибка молодости.....ошибка молодости");
             throw new RuntimeException(e);

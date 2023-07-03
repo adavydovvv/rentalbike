@@ -16,8 +16,8 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-            <ComboBox fx:id="shoplist" layoutX="70.0" layoutY="115.0" prefHeight="25.0" prefWidth="384.0" promptText="Магазин" />
-            <ComboBox fx:id="modellist" layoutX="70.0" layoutY="162.0" prefHeight="25.0" prefWidth="384.0" promptText="Модель" />
+            <ComboBox fx:id="shoplist" layoutX="70.0" layoutY="162.0" prefHeight="25.0" prefWidth="384.0" promptText="Магазин" />
+            <ComboBox fx:id="modellist" layoutX="70.0" layoutY="119.0" prefHeight="25.0" prefWidth="384.0" promptText="Модель" />
             <DatePicker fx:id="issue_date" layoutX="70.0" layoutY="209.0" prefHeight="25.0" prefWidth="384.0" promptText="День выдачи" />
             <Label layoutX="70.0" layoutY="49.0" prefHeight="17.0" prefWidth="384.0" text="Бронирование велосипеда">
                <font>

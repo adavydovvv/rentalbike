@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -20,8 +21,9 @@
                         <Font name="System Bold" size="20.0" />
                     </font>
                 </Label>
-            <ComboBox fx:id="reserv_no" layoutX="70.0" layoutY="125.0" prefHeight="25.0" prefWidth="384.0" promptText="Номер бронирования" />
+            <ComboBox fx:id="reserv_no" layoutX="70.0" layoutY="125.0" prefHeight="25.0" prefWidth="384.0" promptText="Номер велосипеда" />
             <DatePicker fx:id="return_date" layoutX="70.0" layoutY="187.0" prefHeight="25.0" prefWidth="384.0" promptText="Дата" />
+            <Button fx:id="agree_but" layoutX="70.0" layoutY="298.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0" text="Подтвердить" />
             </children>
         </AnchorPane>
         <Label layoutX="301.0" layoutY="26.0" text="Велопрокат" textFill="WHITE">

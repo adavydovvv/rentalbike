@@ -34,7 +34,7 @@ public class Const {
     public static final String RESERVATION_ID = "id";
     public static final String RESERVATION_CLIENTID = "client_id";
     public static final String RESERVATION_BIKEID = "bike_id";
-    public static final String RESERVATION_RETURNID = "return_id";
+    public static final String RESERVATION_RETURNDATE = "return_date";
     public static final String RESERVATION_ISDATE = "issue_date";
     public static final String RESERVATION_ISSHOP = "issue_shop";
 
