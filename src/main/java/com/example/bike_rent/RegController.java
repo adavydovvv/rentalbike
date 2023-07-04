@@ -11,7 +11,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class RegController {
+public class RegController implements Security{
+    public static int mandate_tag = 0;
 
     @FXML
     private ResourceBundle resources;

@@ -13,7 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class MainWinController {
+public class MainWinController implements Security{
+
+    public static int mandate_tag = 0;
 
     @FXML
     private ResourceBundle resources;
@@ -35,11 +37,13 @@ public class MainWinController {
 
     @FXML
     private Button zap_button;
+    @FXML
+    private Button system_exit;
 
     @FXML
     void initialize() throws SQLException {
         DataBaseHandler dbhandler = DataBaseHandler.getInstance();
-        helloLabel.setText("Добро пожаловать, " + dbhandler.getClientName());
+        helloLabel.setText("Добро пожаловать, " + dbhandler.getClientName() + " , Ваш Id: " + dbhandler.getClientID(Authorization.getLogin()));
         zap_button.setOnAction(actionEvent -> {
             zap_button.getScene().getWindow().hide();
 
@@ -55,34 +59,21 @@ public class MainWinController {
             stage.setScene(new Scene(root));
             stage.show();
         });
-        ret_button.setOnAction(actionEvent -> {
+
+        system_exit.setOnAction(actionEvent -> {
+            Authorization.setLogin("");
+            system_exit.getScene().getWindow().hide();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("hello-view.fxml"));
             try {
-                if (dbhandler.getClientResBikeId().size() == 0){
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("");
-                    alert.setHeaderText("Внимание!");
-                    alert.setContentText("У вас нет активых бронирований!");
-                    alert.showAndWait();
-                }
-                else {
-                    ret_button.getScene().getWindow().hide();
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getResource("refund.fxml"));
-                    try {
-                        loader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Parent root = loader.getRoot();
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
         });
     }
 

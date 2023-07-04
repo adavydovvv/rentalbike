@@ -14,7 +14,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class RefundController {
+public class RefundController implements Security{
+    public static int mandate_tag = 0;
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -28,18 +29,28 @@ public class RefundController {
     @FXML
     private DatePicker return_date;
     @FXML
+    private ComboBox<Integer> client_id;
+
+    @FXML
     private Button ret_but;
     @FXML
     void initialize() throws SQLException {
         DataBaseHandler dbhandler = DataBaseHandler.getInstance();
-        reserv_no.setItems(dbhandler.getClientResBikeId());
+        client_id.setItems(dbhandler.getIdsOfRclients());
+        client_id.setOnAction(actionEvent -> {
+            try {
+                reserv_no.setItems(dbhandler.getClientResBikeId(client_id.getValue()));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
         agree_but.setOnAction(actionEvent -> {
             try {
                 dbhandler.return_bike(reserv_no.getValue(), return_date.getValue());
                 System.out.println("Велик на базе");
                 agree_but.getScene().getWindow().hide();
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("main-win.fxml"));
+                loader.setLocation(getClass().getResource("main_shopadmin.fxml"));
                 try {
                     loader.load();
                 } catch (IOException e) {
@@ -56,7 +67,7 @@ public class RefundController {
         ret_but.setOnAction(actionEvent -> {
             ret_but.getScene().getWindow().hide();
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("main-win.fxml"));
+            loader.setLocation(getClass().getResource("main_shopadmin.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {

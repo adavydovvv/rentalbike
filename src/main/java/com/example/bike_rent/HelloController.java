@@ -13,7 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class HelloController {
+public class HelloController implements Security{
+    public static int mandate_tag = 0;
 
     @FXML
     private ResourceBundle resources;
@@ -28,6 +29,8 @@ public class HelloController {
 
     @FXML
     private TextField loginfield;
+    @FXML
+    private Button exitbutton;
 
     @FXML
     private Button mainregbutton;
@@ -71,6 +74,9 @@ public class HelloController {
             stage.setScene(new Scene(root));
             stage.showAndWait();
         });
+        exitbutton.setOnAction(actionEvent -> {
+            System.exit(0);
+        });
 
     }
     private void loginuser(String login, String password) throws SQLException {
@@ -82,19 +88,39 @@ public class HelloController {
         }
         if (count >= 1){
             System.out.println("Авторизация выполнена успешно! (f-true)");
-            authorizebutton.getScene().getWindow().hide();
             Authorization.setLogin(login);
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("main-win.fxml"));
-            try {
-                loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (dbhandler.getUserMandateTag() == MainWinController.mandate_tag){
+                authorizebutton.getScene().getWindow().hide();
+                Authorization.setLogin(login);
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("main-win.fxml"));
+                try {
+                    loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Parent root = loader.getRoot();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.showAndWait();
             }
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
+            else if (dbhandler.getUserMandateTag() == SAdminController.mandate_tag){
+                Shop.setAdmin_id(dbhandler.getClientID(login));
+                Shop.setName(dbhandler.getShopName(dbhandler.getClientID(login)));
+                authorizebutton.getScene().getWindow().hide();
+                Authorization.setLogin(login);
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("main_shopadmin.fxml"));
+                try {
+                    loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Parent root = loader.getRoot();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.showAndWait();
+            }
         }
         else {
             System.out.println("Ошибка авторизации!");

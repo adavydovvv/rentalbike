@@ -10,6 +10,7 @@ public class Const {
     public static final String CLIENT_NAME = "name";
     public static final String CLIENT_ADDRESS = "address";
     public static final String CLIENT_PASSPORTDATA = "passport_data";
+    public static final String CLIENT_MTAG = "m_tag";
 
     //-------------------------------------------------
     // Таблица Passport
@@ -63,5 +64,6 @@ public class Const {
 
     public static final String SHOP_NAME = "name";
     public static final String SHOP_ADDRESS = "address";
+    public static final String SHOPADMIN_ID = "admin_id";
 
 }

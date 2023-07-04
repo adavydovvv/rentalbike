@@ -40,7 +40,7 @@ public class DataBaseHandler extends Configs{
 
         String insert_client = "INSERT INTO " + Const.CLIENT_TABLE + "(" +
                 Const.CLIENT_AUTHORIZATION + ","  + Const.CLIENT_NAME + "," + Const.CLIENT_ADDRESS
-                + "," + Const.CLIENT_PASSPORTDATA + ")" + "VALUES(?,?,?,?)";
+                + "," + Const.CLIENT_PASSPORTDATA + "," + Const.CLIENT_MTAG + ")" + "VALUES(?,?,?,?,?)";
 
         String insert_passport = "INSERT INTO " + Const.PASSPORT_TABLE + "(" +
                 Const.PASSPORT_SERIES + ","  + Const.PASSPORT_NUMBER + ")" +  "VALUES(?,?)";
@@ -72,6 +72,7 @@ public class DataBaseHandler extends Configs{
             ps_client.setString(2, name);
             ps_client.setString(3, address);
             ps_client.setInt(4, getidnum(query_pas));
+            ps_client.setInt(5, 0);
             ps_client.executeUpdate();
         } catch (SQLException e){
             //System.out.println("АПШИВКА");
@@ -175,13 +176,13 @@ public class DataBaseHandler extends Configs{
             PreparedStatement ps_b = getInstanceConnection().prepareStatement(update_biketable);
             ps_b.executeUpdate();
         } catch (SQLException e){
-            //System.out.println("Ошибка молодости.....ошибка молодости");
+            System.out.println("Ошибка молодости.....ошибка молодости");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Ошибка");
             alert.setHeaderText("Ошибка бронирования:");
-            alert.setContentText("К сожалению, на данный момент выбранная модель велосипеда в данном магазине недоступна");
+            alert.setContentText("На данный момент все велосипеды данной модели в данном магазине недоступны!");
             alert.showAndWait();
-            throw new RuntimeException(e);
+            System.out.println("Ошибка молодости.....ошибка молодости");
         }
     }
     public ObservableList<String> getColumnBoxShops(String bike_model) throws SQLException {
@@ -195,14 +196,26 @@ public class DataBaseHandler extends Configs{
         }
         return data;
     }
-    public ObservableList<Integer> getClientResBikeId() throws SQLException {
+    public ObservableList<Integer> getClientResBikeId(int client) throws SQLException {
         ObservableList<Integer> data = FXCollections.observableArrayList();
-        int client_id = getClientID(Authorization.getLogin());
-        String query = "SELECT " + Const.RESERVATION_BIKEID + " FROM " + Const.RESERVATION_TABLE + " WHERE client_id = " + client_id + " AND return_date is NULL";
+        String query = "SELECT " + Const.RESERVATION_BIKEID + " FROM " + Const.RESERVATION_TABLE +
+                " WHERE client_id = " + client + " AND return_date is NULL AND " + Const.RESERVATION_ISSHOP + " ='" + Shop.getName() + "'";
         Statement statement = getInstanceConnection().createStatement();
         ResultSet result = statement.executeQuery(query);
         while (result.next()){
             int value = result.getInt(Const.RESERVATION_BIKEID);
+            data.add(value);
+        }
+        return data;
+    }
+    public ObservableList<Integer> getIdsOfRclients() throws SQLException {
+        ObservableList<Integer> data = FXCollections.observableArrayList();
+        String query = "SELECT DISTINCT " + Const.RESERVATION_CLIENTID + " FROM " + Const.RESERVATION_TABLE +
+                " WHERE return_date is NULL AND " + Const.RESERVATION_ISSHOP + " = '" + Shop.getName() + "'";
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            int value = result.getInt(Const.RESERVATION_CLIENTID);
             data.add(value);
         }
         return data;
@@ -218,9 +231,30 @@ public class DataBaseHandler extends Configs{
             PreparedStatement ps_res = getInstanceConnection().prepareStatement(update_reserve);
             ps_res.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Ошибка молодости.....ошибка молодости");
             throw new RuntimeException(e);
         }
+    }
+    public int getUserMandateTag() throws SQLException {
+        int value = 0;
+        String query = "SELECT " + Const.CLIENT_MTAG + " FROM " + Const.CLIENT_TABLE + " WHERE " + Const.CLIENT_ID +
+                " = " +  getClientID(Authorization.getLogin());
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            value = result.getInt(1);
+        }
+        return value;
+    }
+    public String getShopName(int admin_id) throws SQLException {
+        String value = null;
+        String query = "SELECT name FROM " + Const.SHOP_TABLE + " WHERE " + Const.SHOPADMIN_ID +
+                " = " + admin_id ;
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            value = result.getString(1);
+        }
+        return value;
     }
     public static DataBaseHandler getInstance() {
         return DataBaseHandlerHolder.HOLDER_INSTANCE;

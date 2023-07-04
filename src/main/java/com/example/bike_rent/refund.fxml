@@ -21,13 +21,14 @@
                         <Font name="System Bold" size="20.0" />
                     </font>
                 </Label>
-            <ComboBox fx:id="reserv_no" layoutX="70.0" layoutY="125.0" prefHeight="25.0" prefWidth="384.0" promptText="Номер велосипеда" />
-            <DatePicker fx:id="return_date" layoutX="70.0" layoutY="187.0" prefHeight="25.0" prefWidth="384.0" promptText="Дата" />
+            <ComboBox fx:id="reserv_no" layoutX="70.0" layoutY="153.0" prefHeight="25.0" prefWidth="384.0" promptText="Номер велосипеда" />
+            <DatePicker fx:id="return_date" layoutX="70.0" layoutY="200.0" prefHeight="25.0" prefWidth="384.0" promptText="Дата" />
             <Button fx:id="agree_but" layoutX="70.0" layoutY="298.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0" text="Подтвердить" />
             <Button fx:id="ret_but" layoutX="527.0" layoutY="298.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0" text="Назад" textOverrun="CLIP" />
+            <ComboBox fx:id="client_id" layoutX="70.0" layoutY="105.0" prefHeight="25.0" prefWidth="384.0" promptText="Id клиента" />
             </children>
         </AnchorPane>
-        <Label layoutX="301.0" layoutY="26.0" text="Велопрокат" textFill="WHITE">
+        <Label layoutX="62.0" layoutY="28.0" text="Велопрокат : ВХОД АДМИНИСТРАТОРА" textFill="WHITE">
             <font>
                 <Font name="Arial" size="35.0" />
             </font>

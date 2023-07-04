@@ -9,15 +9,15 @@
     <children>
         <AnchorPane layoutX="-4.0" layoutY="92.0" prefHeight="373.0" prefWidth="796.0" style="-fx-background-color: #fafafa;">
             <children>
-                <Label fx:id="helloLabel" layoutX="56.0" layoutY="22.0" prefHeight="35.0" prefWidth="721.0" style="-fx-background-color: #fafafa;" text="Добро пожаловать, Клиент">
+                <Label fx:id="helloLabel" layoutX="56.0" layoutY="22.0" prefHeight="35.0" prefWidth="721.0" style="-fx-background-color: #fafafa;" text="Добро пожаловать, Клиент, Ваш Id: №">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
                 </Label>
-            <Button fx:id="zap_button" layoutX="53.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="451.0" text="Забронировать велосипед" />
-            <Button fx:id="history_button" layoutX="53.0" layoutY="205.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="451.0" text="История моих бронирований" />
-            <Button fx:id="change_userdata" layoutX="53.0" layoutY="268.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="451.0" text="Изменить личные данные" />
-            <Button fx:id="ret_button" layoutX="53.0" layoutY="151.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="451.0" text="Вернуть велосипед" />
+            <Button fx:id="zap_button" layoutX="47.0" layoutY="95.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="703.0" text="Забронировать велосипед" />
+            <Button fx:id="history_button" layoutX="47.0" layoutY="212.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="291.0" text="История моих бронирований" />
+            <Button fx:id="change_userdata" layoutX="459.0" layoutY="212.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="291.0" text="Изменить личные данные" />
+            <Button fx:id="system_exit" layoutX="634.0" layoutY="322.0" mnemonicParsing="false" text="Выйти из системы" textFill="RED" />
             </children>
         </AnchorPane>
         <Label layoutX="301.0" layoutY="26.0" text="Велопрокат" textFill="WHITE">
