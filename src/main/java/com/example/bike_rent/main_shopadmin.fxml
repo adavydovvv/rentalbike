@@ -14,12 +14,7 @@
                   <Font name="System Bold Italic" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="all_reserv" layoutX="44.0" layoutY="108.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="298.0" text="Все бронирования">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="active_reserv" layoutX="44.0" layoutY="228.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="298.0" text="Активные бронирования">
+            <Button fx:id="active_reserv" layoutX="58.0" layoutY="108.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="298.0" text="Бронирования">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -29,7 +24,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="bikes_inshop" layoutX="441.0" layoutY="228.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="298.0" text="Велосипеды в магазине">
+            <Button fx:id="bikes_inshop" layoutX="249.0" layoutY="212.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="298.0" text="Велосипеды в магазине">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

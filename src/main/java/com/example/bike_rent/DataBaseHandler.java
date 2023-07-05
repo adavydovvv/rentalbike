@@ -3,6 +3,9 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -199,7 +202,8 @@ public class DataBaseHandler extends Configs{
     public ObservableList<Integer> getClientResBikeId(int client) throws SQLException {
         ObservableList<Integer> data = FXCollections.observableArrayList();
         String query = "SELECT " + Const.RESERVATION_BIKEID + " FROM " + Const.RESERVATION_TABLE +
-                " WHERE client_id = " + client + " AND return_date is NULL AND " + Const.RESERVATION_ISSHOP + " ='" + Shop.getName() + "'";
+                " WHERE client_id = " + client + " AND return_date is NULL AND " + Const.RESERVATION_ISSHOP
+                + " ='" + Shop.getName() + "'";
         Statement statement = getInstanceConnection().createStatement();
         ResultSet result = statement.executeQuery(query);
         while (result.next()){
@@ -255,6 +259,43 @@ public class DataBaseHandler extends Configs{
             value = result.getString(1);
         }
         return value;
+    }
+    public ObservableList<RTable> getActiveReservations() throws SQLException {
+        ObservableList<RTable> res = FXCollections.observableArrayList();
+
+
+        String query = "SELECT id, client_id, bike_id, issue_date FROM " + Const.RESERVATION_TABLE +
+                " WHERE return_date is NULL AND " + Const.RESERVATION_ISSHOP + " = '" + Shop.getName() + "'";
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            int r_id = result.getInt("id");
+            int client_id = result.getInt("client_id");
+            int bike_id = result.getInt("bike_id");
+            LocalDate issuedate = result.getDate("issue_date").toLocalDate();
+            RTable r = new RTable(r_id, client_id, bike_id, issuedate);
+            res.add(r);
+        }
+        return res;
+    }
+    public ObservableList<RTable> getAllReservations() throws SQLException {
+        ObservableList<RTable> res = FXCollections.observableArrayList();
+
+
+        String query = "SELECT id, client_id, bike_id, return_date, issue_date FROM " + Const.RESERVATION_TABLE + " WHERE " +
+                Const.RESERVATION_ISSHOP + " = '" + Shop.getName() + "' AND return_date is NOT NULL";
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            int r_id = result.getInt("id");
+            int client_id = result.getInt("client_id");
+            int bike_id = result.getInt("bike_id");
+            LocalDate returndate = result.getDate("return_date").toLocalDate();
+            LocalDate issuedate = result.getDate("issue_date").toLocalDate();
+            RTable r = new RTable(r_id, client_id, bike_id, returndate, issuedate);
+            res.add(r);
+        }
+        return res;
     }
     public static DataBaseHandler getInstance() {
         return DataBaseHandlerHolder.HOLDER_INSTANCE;

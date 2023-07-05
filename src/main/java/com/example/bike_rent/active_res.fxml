@@ -2,40 +2,56 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="793.0" style="-fx-background-color: #2E3360;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bike_rent.SAdminController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="793.0" style="-fx-background-color: #2E3360;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bike_rent.ActiveResController">
     <children>
         <AnchorPane layoutX="-4.0" layoutY="92.0" prefHeight="373.0" prefWidth="796.0" style="-fx-background-color: #fafafa;">
-            <children>
-                <Label fx:id="shopname" layoutX="288.0" layoutY="29.0" prefHeight="26.0" prefWidth="258.0" text="Магазин &quot;ShopName&quot;">
-                    <font>
-                        <Font name="System Bold Italic" size="20.0" />
-                    </font>
-                </Label>
-                <Button fx:id="all_reserv" layoutX="44.0" layoutY="108.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="298.0" text="Все бронирования">
-                    <font>
-                        <Font name="System Bold" size="15.0" />
-                    </font>
-                </Button>
-                <Button fx:id="active_reserv" layoutX="44.0" layoutY="228.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="298.0" text="Активные бронирования">
-                    <font>
-                        <Font name="System Bold" size="16.0" />
-                    </font>
-                </Button>
-                <Button fx:id="return_bike" layoutX="441.0" layoutY="108.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="298.0" text="Возврат велосипеда">
-                    <font>
-                        <Font name="System Bold" size="15.0" />
-                    </font>
-                </Button>
-                <Button fx:id="bikes_inshop" layoutX="441.0" layoutY="228.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="298.0" text="Велосипеды в магазине">
-                    <font>
-                        <Font name="System Bold" size="15.0" />
-                    </font>
-                </Button>
-                <Button fx:id="system_exit" layoutX="340.0" layoutY="325.0" mnemonicParsing="false" text="Выход из системы" textFill="RED" />
-            </children>
+         <children>
+            <TabPane fx:id="tabpanee" layoutX="2.0" layoutY="-2.0" prefHeight="373.0" prefWidth="739.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="active_table" text="Активные бронирования">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="act_table" layoutX="1.0" prefHeight="345.0" prefWidth="793.0">
+                                <columns>
+                                  <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="clientId" prefWidth="75.0" text="ID клиента" />
+                                    <TableColumn fx:id="bikeId" prefWidth="98.0" text="ID велосипеда" />
+                                    <TableColumn fx:id="Issue_date" prefWidth="120.0" text="Дата выдачи" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab fx:id="all_table" text="Архив бронирований">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="alltab" layoutX="2.0" prefHeight="347.0" prefWidth="739.0">
+                                <columns>
+                                  <TableColumn fx:id="id1" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="clientId1" prefWidth="75.0" text="ID клиента" />
+                                    <TableColumn fx:id="bikeId1" prefWidth="96.0" text="ID велосипеда" />
+                                    <TableColumn fx:id="Issue_date1" prefWidth="106.0" text="Дата выдачи" />
+                                    <TableColumn fx:id="return_date1" prefWidth="111.0" text="Дата возврата" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <Button fx:id="ret_button" layoutX="733.0" layoutY="334.0" mnemonicParsing="false" text="Назад" />
+         </children>
         </AnchorPane>
         <Label layoutX="62.0" layoutY="28.0" text="Велопрокат : ВХОД АДМИНИСТРАТОРА" textFill="WHITE">
             <font>
