@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="793.0" style="-fx-background-color: #2E3360;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bike_rent.ChangeDataController">
+    <children>
+        <AnchorPane layoutX="-4.0" layoutY="92.0" prefHeight="373.0" prefWidth="796.0" style="-fx-background-color: #fafafa;">
+            <children>
+                <PasswordField fx:id="regpassword" layoutX="103.0" layoutY="138.0" prefHeight="25.0" prefWidth="567.0" promptText="Новый пароль" />
+                <Label layoutX="103.0" layoutY="46.0" prefHeight="35.0" prefWidth="372.0" style="-fx-background-color: #fafafa;" text="Изменение данных">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Button fx:id="acceptbutton" layoutX="103.0" layoutY="314.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0" text="Подтвердить" />
+                <TextField fx:id="regemail" layoutX="103.0" layoutY="100.0" prefHeight="25.0" prefWidth="567.0" promptText="Новый адрес e-mail" />
+                <TextField fx:id="clientname" layoutX="103.0" layoutY="174.0" prefHeight="25.0" prefWidth="567.0" promptText="Новое имя" />
+                <TextField fx:id="passpser" layoutX="103.0" layoutY="212.0" prefHeight="25.0" prefWidth="162.0" promptText="Новая серия паспорта" />
+                <TextField fx:id="passpnum" layoutX="269.0" layoutY="212.0" prefHeight="25.0" prefWidth="401.0" promptText="Новый номер паспорта" />
+                <TextField fx:id="clientaddress" layoutX="103.0" layoutY="251.0" prefHeight="25.0" prefWidth="567.0" promptText="Новый адрес проживания" />
+                <Button fx:id="ret_but" layoutX="478.0" layoutY="314.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0" text="Назад" />
+            </children>
+        </AnchorPane>
+        <Label layoutX="301.0" layoutY="26.0" text="Велопрокат" textFill="WHITE">
+            <font>
+                <Font name="Arial" size="35.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

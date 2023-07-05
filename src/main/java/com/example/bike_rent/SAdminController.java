@@ -57,34 +57,47 @@ public class SAdminController implements Security{
             stage.setScene(new Scene(root));
             stage.show();
         });
+        bikes_inshop.setOnAction(actionEvent -> {
+            bikes_inshop.getScene().getWindow().hide();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("all_shopbikes.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        });
         return_bike.setOnAction(actionEvent -> {
-//            try {
-//                if (dbhandler.getClientResBikeId().size() == 0){
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                    alert.setTitle("");
-//                    alert.setHeaderText("Внимание!");
-//                    alert.setContentText("У вас нет активых бронирований!");
-//                    alert.showAndWait();
-//                }
-//                else {
-                return_bike.getScene().getWindow().hide();
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("refund.fxml"));
-                try {
-                    loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                if (dbhandler.getActiveReservations().size() == 0){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Внимание");
+                    alert.setHeaderText("Внимание");
+                    alert.setContentText("На данный момент нет активных бронирований!");
+                    alert.showAndWait();
                 }
-                Parent root = loader.getRoot();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
-            //}
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
+                else {
+                    return_bike.getScene().getWindow().hide();
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("refund.fxml"));
+                    try {
+                        loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Parent root = loader.getRoot();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.show();
 
-
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         });
         active_reserv.setOnAction(actionEvent -> {
             active_reserv.getScene().getWindow().hide();

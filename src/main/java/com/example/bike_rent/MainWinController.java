@@ -75,6 +75,34 @@ public class MainWinController implements Security{
             stage.setScene(new Scene(root));
             stage.show();
         });
+        history_button.setOnAction(actionEvent -> {
+            history_button.getScene().getWindow().hide();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("clientres_history.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        });
+        change_userdata.setOnAction(actionEvent -> {
+            change_userdata.getScene().getWindow().hide();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("change_clientdata.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        });
     }
 
 }

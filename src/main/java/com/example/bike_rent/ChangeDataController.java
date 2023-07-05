@@ -1,6 +1,8 @@
 package com.example.bike_rent;
+
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -14,7 +16,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class RegController{
+public class ChangeDataController {
 
     @FXML
     private ResourceBundle resources;
@@ -36,20 +38,19 @@ public class RegController{
 
     @FXML
     private TextField passpser;
-    @FXML
-    private Button ret_but;
 
     @FXML
     private TextField regemail;
 
     @FXML
-    private TextField reglogin;
-
-    @FXML
     private PasswordField regpassword;
 
     @FXML
+    private Button ret_but;
+
+    @FXML
     void initialize() {
+        DataBaseHandler dbhandler = DataBaseHandler.getInstance();
         acceptbutton.setOnAction(actionEvent -> {
             ArrayList<TextField> array = new ArrayList<>();
             array.add(clientaddress);
@@ -58,7 +59,6 @@ public class RegController{
             array.add(passpser);
             array.add(regemail);
             array.add(clientaddress);
-            array.add(reglogin);
             array.add(regpassword);
             boolean flag = false;
             for (int i = 0; i < array.size(); i++){
@@ -67,11 +67,16 @@ public class RegController{
                 }
             }
             if (!flag){
-                signUpUser();
+                try {
+                    dbhandler.changeUserData(clientname.getText(), clientaddress.getText(), passpser.getText(),
+                            passpnum.getText(), regpassword.getText(), regemail.getText());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 acceptbutton.getScene().getWindow().hide();
 
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(HelloApplication.class.getResource("hello-view.fxml"));
+                loader.setLocation(HelloApplication.class.getResource("main-win.fxml"));
                 try {
                     loader.load();
                 } catch (IOException e) {
@@ -85,7 +90,7 @@ public class RegController{
             else{
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Ошибка");
-                alert.setHeaderText("Ошибка при регистрации:");
+                alert.setHeaderText("Ошибка при изменении данных:");
                 alert.setContentText("Заполните все поля!");
                 alert.showAndWait();
             }
@@ -93,7 +98,7 @@ public class RegController{
         ret_but.setOnAction(actionEvent -> {
             ret_but.getScene().getWindow().hide();
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("hello-view.fxml"));
+            loader.setLocation(getClass().getResource("main-win.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -105,11 +110,6 @@ public class RegController{
             stage.show();
         });
     }
-    public void signUpUser(){
-        DataBaseHandler dbhandler = DataBaseHandler.getInstance();
-        dbhandler.signUpUser(clientname.getText(), clientaddress.getText(), passpser.getText(),
-                passpnum.getText(), reglogin.getText(), regpassword.getText(), regemail.getText());
-        System.out.println("!Пользователь успешно добавлен в базу данных!");
-    }
 
 }
+

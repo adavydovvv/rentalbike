@@ -13,8 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class HelloController implements Security{
-    public static int mandate_tag = 0;
+public class HelloController{
 
     @FXML
     private ResourceBundle resources;

@@ -14,8 +14,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class RefundController implements Security{
-    public static int mandate_tag = 0;
+public class RefundController{
     @FXML
     private ResourceBundle resources;
     @FXML

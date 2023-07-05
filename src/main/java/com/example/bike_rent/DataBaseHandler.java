@@ -37,6 +37,9 @@ public class DataBaseHandler extends Configs{
             }
         }
     }
+    public static DataBaseHandler getInstance() {
+        return DataBaseHandlerHolder.HOLDER_INSTANCE;
+    }
     public void signUpUser(String name, String address, String series,
                            String number, String login, String password,
                            String email){
@@ -179,13 +182,13 @@ public class DataBaseHandler extends Configs{
             PreparedStatement ps_b = getInstanceConnection().prepareStatement(update_biketable);
             ps_b.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Ошибка молодости.....ошибка молодости");
+            //System.out.println("Ошибка молодости.....ошибка молодости");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Ошибка");
             alert.setHeaderText("Ошибка бронирования:");
             alert.setContentText("На данный момент все велосипеды данной модели в данном магазине недоступны!");
             alert.showAndWait();
-            System.out.println("Ошибка молодости.....ошибка молодости");
+            //System.out.println("Ошибка молодости.....ошибка молодости");
         }
     }
     public ObservableList<String> getColumnBoxShops(String bike_model) throws SQLException {
@@ -235,6 +238,11 @@ public class DataBaseHandler extends Configs{
             PreparedStatement ps_res = getInstanceConnection().prepareStatement(update_reserve);
             ps_res.executeUpdate();
         } catch (SQLException e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Ошибка");
+            alert.setHeaderText("");
+            alert.setContentText("Выберите значение!");
+            alert.showAndWait();
             throw new RuntimeException(e);
         }
     }
@@ -297,7 +305,114 @@ public class DataBaseHandler extends Configs{
         }
         return res;
     }
-    public static DataBaseHandler getInstance() {
-        return DataBaseHandlerHolder.HOLDER_INSTANCE;
+    public ObservableList<RTable> getAllBikes() throws SQLException {
+        ObservableList<RTable> res = FXCollections.observableArrayList();
+
+
+        String query = "SELECT id, model, status FROM " + Const.BIKE_TABLE + " WHERE " +
+                Const.BIKE_SHOP + " = '" + Shop.getName() + "'";
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            int r_id = result.getInt("id");
+            String model = result.getString("model");
+            String status = result.getString("status");
+            RTable r = new RTable(r_id, model, status);
+            res.add(r);
+        }
+        return res;
     }
+    public String getBikeModel(int id) throws SQLException {
+        String res = null;
+        String query1 = "SELECT model FROM " + Const.BIKE_TABLE + " WHERE " +
+                Const.BIKE_ID + " = " + id;
+        Statement statement1 = getInstanceConnection().createStatement();
+        ResultSet result1 = statement1.executeQuery(query1);
+        while (result1.next()){
+            res = result1.getString(1);
+        }
+        return res;
+    }
+    public ObservableList<RTable> getActiveClientRes() throws SQLException {
+        ObservableList<RTable> res = FXCollections.observableArrayList();
+        String query = "SELECT bike_id, issue_shop, issue_date FROM " + Const.RESERVATION_TABLE + " WHERE " +
+                Const.RESERVATION_CLIENTID + " = " + getClientID(Authorization.getLogin()) + " AND return_date is NULL";
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            String model = getBikeModel(result.getInt("bike_id"));
+            String shop = result.getString("issue_shop");
+            LocalDate date = result.getDate("issue_date").toLocalDate();
+            RTable r = new RTable(date, shop, model);
+            res.add(r);
+        }
+        return res;
+    }
+    public ObservableList<RTable> getHistoryClientRes() throws SQLException {
+        ObservableList<RTable> res = FXCollections.observableArrayList();
+        String query = "SELECT bike_id, issue_shop, issue_date, return_date FROM " + Const.RESERVATION_TABLE + " WHERE " +
+                Const.RESERVATION_CLIENTID + " = " + getClientID(Authorization.getLogin()) + " AND return_date is NOT NULL";
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            String model = getBikeModel(result.getInt("bike_id"));
+            String shop = result.getString("issue_shop");
+            LocalDate idate = result.getDate("issue_date").toLocalDate();
+            LocalDate rdate = result.getDate("return_date").toLocalDate();
+            RTable r = new RTable(rdate, idate, shop, model);
+            res.add(r);
+        }
+        return res;
+    }
+    public int getPassportId() throws SQLException {
+        int value = 0;
+        String query = "SELECT passport_data FROM " + Const.CLIENT_TABLE + " WHERE " + Const.CLIENT_ID +
+                " = " + getClientID(Authorization.getLogin());
+        Statement statement = getInstanceConnection().createStatement();
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            value = result.getInt(1);
+        }
+        return value;
+    }
+    public void changeUserData(String name, String address, String series,
+                           String number, String password,
+                           String email) throws SQLException {
+
+        String insert_client = "UPDATE " + Const.CLIENT_TABLE + " SET " + Const.CLIENT_NAME + " = ?" + "," + Const.CLIENT_ADDRESS
+                 + " = ?" + " WHERE " + Const.CLIENT_ID  + " = " + getClientID(Authorization.getLogin()) ;
+
+        String insert_passport = "UPDATE " + Const.PASSPORT_TABLE + " SET " +
+                Const.PASSPORT_SERIES + " = ? ,"  + Const.PASSPORT_NUMBER + " = ?" + " WHERE " + Const.PASSPORT_ID  + " = " + getPassportId();
+
+        String insert_authorization = "UPDATE " + Const.AUTHORIZATION_TABLE + " SET " + Const.AUTHORIZATION_EMAIL + " = ? ," + Const.AUTHORIZATION_PASSWORD
+                + " = ?" + " WHERE " + Const.AUTHORIZATION_LOGIN  + " = '" + Authorization.getLogin() + "'";
+
+        try{
+            PreparedStatement ps_auth = getInstanceConnection().prepareStatement(insert_authorization);
+            ps_auth.setString(1, email);
+            ps_auth.setString(2, Integer.toString(password.hashCode()));
+            ps_auth.executeUpdate();
+
+            PreparedStatement ps_pas = getInstanceConnection().prepareStatement(insert_passport);
+            ps_pas.setString(1, series);
+            ps_pas.setString(2, number);
+            ps_pas.executeUpdate();
+
+            PreparedStatement ps_client = getInstanceConnection().prepareStatement(insert_client);
+            ps_client.setString(1, name);
+            ps_client.setString(2, address);
+            ps_client.executeUpdate();
+
+        } catch (SQLException e){
+            //System.out.println("АПШИВКА");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Ошибка");
+            alert.setHeaderText("Ошибка при изменении данных:");
+            alert.setContentText("Что-то пошло не так!");
+            alert.showAndWait();
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -11,9 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-public class ReservWinController implements Security{
-    public static int mandate_tag = 0;
-
+public class ReservWinController{
     @FXML
     private ResourceBundle resources;
 

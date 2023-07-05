@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="793.0" style="-fx-background-color: #2E3360;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bike_rent.AllBikesController">
+    <children>
+        <AnchorPane layoutX="-4.0" layoutY="92.0" prefHeight="373.0" prefWidth="796.0" style="-fx-background-color: #fafafa;">
+         <children>
+            <TableView fx:id="tableView" prefHeight="373.0" prefWidth="669.0">
+              <columns>
+                <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="model" prefWidth="249.0" text="Модель" />
+                  <TableColumn fx:id="status" prefWidth="79.0" text="Статус" />
+              </columns>
+            </TableView>
+            <Button fx:id="return_button" layoutX="677.0" layoutY="334.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Назад" />
+         </children>
+        </AnchorPane>
+        <Label layoutX="62.0" layoutY="28.0" text="Велопрокат : ВХОД АДМИНИСТРАТОРА" textFill="WHITE">
+            <font>
+                <Font name="Arial" size="35.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
